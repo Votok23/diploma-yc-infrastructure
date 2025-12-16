@@ -1,0 +1,10 @@
+# Zabbix Agent Configuration
+
+PidFile=/run/zabbix/zabbix_agent2.pid
+LogFile=/var/log/zabbix/zabbix_agent2.log
+LogFileSize=0
+Server=192.168.10.11
+ServerActive=192.168.10.11
+Hostname={{ ansible_hostname }}
+HostMetadata=linux
+Include=/etc/zabbix/zabbix_agent2.d/*.conf

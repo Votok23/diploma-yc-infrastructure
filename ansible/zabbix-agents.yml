@@ -1,0 +1,6 @@
+---
+- name: Install Zabbix agents on all servers
+  hosts: webservers:zabbix:elasticsearch:kibana
+  become: yes
+  roles:
+    - zabbix-agent

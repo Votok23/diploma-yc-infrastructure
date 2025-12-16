@@ -1,0 +1,112 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install Docker dependencies
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+    state: present
+
+- name: Install Docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+
+- name: Start and enable Docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+- name: Create Zabbix directory
+  file:
+    path: /opt/zabbix
+    state: directory
+    mode: '0755'
+
+- name: Create docker-compose file
+  copy:
+    dest: /opt/zabbix/docker-compose.yml
+    content: |
+      version: '3.5'
+      services:
+        zabbix-server:
+          image: zabbix/zabbix-server-mysql:ubuntu-6.0-latest
+          container_name: zabbix-server
+          restart: always
+          ports:
+            - "10051:10051"
+          environment:
+            DB_SERVER_HOST: "zabbix-mysql"
+            MYSQL_DATABASE: "zabbix"
+            MYSQL_USER: "zabbix"
+            MYSQL_PASSWORD: "zabbix"
+            MYSQL_ROOT_PASSWORD: "zabbix"
+          volumes:
+            - /var/lib/zabbix/server/enc:/var/lib/zabbix/enc
+            - /var/lib/zabbix/server/export:/var/lib/zabbix/export
+            - /var/lib/zabbix/server/modules:/var/lib/zabbix/modules
+            - /var/lib/zabbix/server/snmptraps:/var/lib/zabbix/snmptraps
+            - /usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts
+            - /usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts
+          depends_on:
+            - zabbix-mysql
+
+        zabbix-mysql:
+          image: mysql:8.0
+          container_name: zabbix-mysql
+          restart: always
+          command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_bin
+            - --default-authentication-plugin=mysql_native_password
+          environment:
+            MYSQL_DATABASE: "zabbix"
+            MYSQL_USER: "zabbix"
+            MYSQL_PASSWORD: "zabbix"
+            MYSQL_ROOT_PASSWORD: "zabbix"
+          volumes:
+            - /var/lib/zabbix/mysql:/var/lib/mysql
+
+        zabbix-web:
+          image: zabbix/zabbix-web-nginx-mysql:ubuntu-6.0-latest
+          container_name: zabbix-web
+          restart: always
+          ports:
+            - "80:8080"
+            - "443:8443"
+          environment:
+            DB_SERVER_HOST: "zabbix-mysql"
+            MYSQL_DATABASE: "zabbix"
+            MYSQL_USER: "zabbix"
+            MYSQL_PASSWORD: "zabbix"
+            ZBX_SERVER_HOST: "zabbix-server"
+            PHP_TZ: "Europe/Moscow"
+          depends_on:
+            - zabbix-mysql
+            - zabbix-server
+    mode: '0644'
+
+- name: Start Zabbix containers
+  command: docker compose -f /opt/zabbix/docker-compose.yml up -d
+  args:
+    creates: /var/run/docker/zabbix-server.pid

@@ -1,0 +1,26 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 178.154.224.233:5601...
+* Connected to 178.154.224.233 (178.154.224.233) port 5601
+> GET / HTTP/1.1
+> Host: 178.154.224.233:5601
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+< HTTP/1.1 302 Found
+< location: /spaces/enter
+< x-content-type-options: nosniff
+< referrer-policy: strict-origin-when-cross-origin
+< permissions-policy: camera=(), display-capture=(), fullscreen=(self), geolocation=(), microphone=(), web-share=()
+< cross-origin-opener-policy: same-origin
+< content-security-policy: script-src 'report-sample' 'self'; worker-src 'report-sample' 'self' blob:; style-src 'report-sample' 'self' 'unsafe-inline'
+< kbn-name: bd068453c245
+< kbn-license-sig: 6087c4af7a1ca0551b1624b37ab2ce42f6073b1947bddaeadd5cf83be522df5b
+< cache-control: private, no-cache, no-store, must-revalidate
+< content-length: 0
+< Date: Tue, 16 Dec 2025 11:39:27 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=120
+< 
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Connection #0 to host 178.154.224.233 left intact
