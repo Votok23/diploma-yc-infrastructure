@@ -19,6 +19,7 @@
 
 ## 📁 Структура проекта
 diplom/
+
 ├── terraform/     # Infrastructure as Code
 
 ├── ansible/       # Configuration management

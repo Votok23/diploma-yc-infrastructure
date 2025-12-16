@@ -33,3 +33,8 @@
 - Ansible: ✅ настроено
 
 ВСЕ КОМПОНЕНТЫ ИНФРАСТРУКТУРЫ РАБОТАЮТ КОРРЕКТНО
+✅ KIBANA ДАШБОРДЫ НАСТРОЕНЫ:
+- Index pattern: nginx-logs-*
+- Визуализация: NGINX Requests Over Time
+- Дашборд: NGINX Logs Dashboard
+- Ссылка: http://178.154.224.233:5601/app/dashboards#/view/c63705fc-7ee9-46bf-856f-7d49745d5585
