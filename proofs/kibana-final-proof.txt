@@ -1,24 +1,4 @@
-✅ ELK STACK РАБОТАЕТ КОРРЕКТНО:
-
-1. ELASTICSEARCH:
-   - Адрес: http://192.168.20.31:9200
-   - Индекс: nginx-logs-2025.12.16
-   - Документов: 26,559+ логов
-   - Статус кластера: green
-
-2. FILEBEAT (на веб-серверах):
-   - web1: 192.168.10.20 - работает
-   - web2: 192.168.20.20 - работает
-   - Отправляет логи nginx в Elasticsearch
-
-3. KIBANA:
-   - Адрес: http://178.154.224.233:5601
-   - Index Pattern: nginx-logs-* (ID: 748e4295-376f-4f0e-b3d5-55b461268dfe)
-   - Визуализация: Nginx Requests Over Time
-   - Дашборд: NGINX Access Logs Dashboard
-   - Ссылка: http://178.154.224.233:5601/app/dashboards#/view/0b01d6bd-98a7-4e1f-a1c5-3b042d51994f
-
-4. ЦЕПОЧКА РАБОТАЕТ:
-   nginx access.log → Filebeat → Elasticsearch → Kibana Dashboard
-
-ВСЕ КОМПОНЕНТЫ ДЛЯ СБОРА И ВИЗУАЛИЗАЦИИ ЛОГОВ РАБОТАЮТ!
+Kibana доступен по адресу: http://158.160.60.190:5601
+Дашборд: NGINX Access Logs Dashboard
+Index Pattern: nginx-logs-*
+Статус: HTTP 200 OK
